@@ -3,197 +3,209 @@
         PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
         "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hnust.dao.it.user.IUserDao">
-    <resultMap type="User" id="UserResult">
-        <result property="id" column="id"/>
-        <result property="userName" column="user_name"/>
-        <result property="password" column="user_pass"/>
-        <result property="loginName" column="login_name"/>
-        <result property="fixedTelephone" column="fixed_telephone"/>
-        <result property="mobilePhone" column="mobile_phone"/>
-        <result property="qq" column="qq"/>
-        <result property="email" column="email"/>
-        <result property="state" column="state"/>
-        <result property="createUser" column="create_user"/>
-        <result property="sysRemark" column="sys_remark"/>
-        <result property="createDate" column="created_date"/>
-        <result property="updateDate" column="update_date"/>
-        <result property="isSuperUser" column="isSuperUser"/>
-    </resultMap>
-
-    <select id="login" parameterType="User" resultMap="UserResult">
-        select * from
-        tpmc_user where login_name=#{loginName} and user_pass=#{password} limit 1
-    </select>
-
-    <select id="findUsers" parameterType="Map" resultMap="UserResult">
-        select * from tpmc_user
-        <where>
-            <if test="userName!=null and userName!='' ">
-                and user_name like #{userName}
-            </if>
-            <if test="loginName!=null and loginName!='' ">
-                and login_name like #{loginName}
-            </if>
-            <if test="password!=null and password!='' ">
-                and user_pass like #{password}
-            </if>
-            <if test="state!=null and state!='' ">
-                and state like #{state}
-            </if>
-            <choose>
-		        <when test="startCreateDate!=null and startCreateDate!='' and endCreateDate!=null and endCreateDate!=''">
-		           and created_date between #{startCreateDate} and #{endCreateDate}
-		        </when>
-		        <when test="startCreateDate!=null and startCreateDate!='' and endCreateDate==null or endCreateDate==''">
-		           and created_date &gt;= #{startCreateDate} 
-		        </when>
-		         <when test="endCreateDate!=null and  endCreateDate!='' and startCreateDate==null or startCreateDate==''">
-		           and created_date &lt;= #{endCreateDate} 
-		        </when>
-		    </choose>
-            <if test="email!=null and email!='' ">
-             	and email like #{email}
-            </if>
-             <if test="mobilePhone!=null and mobilePhone!='' ">
-             	and mobile_phone like #{mobilePhone}
-            </if>
-            <if test="userIds!=null and userIds.size() !=0 ">
-            	and id in 
-            	<foreach item="item" index="index" collection="userIds"
-			     open="(" separator="," close=")">
-			        #{item}
-			   </foreach>
-            </if>
-        </where>
-         <if test="currentPage!=null and pageLimit!=null">
-        	 limit #{currentPage},#{pageLimit}
-   		 </if>
-        
-    </select>
-
-    <select id="getTotalUser" parameterType="Map" resultType="Long">
-        select count(*) from tpmc_user
-        <where>
-             <if test="userName!=null and userName!='' ">
-                and user_name like #{userName}
-            </if>
-            <if test="loginName!=null and loginName!='' ">
-                and login_name like #{loginName}
-            </if>
-            <if test="password!=null and password!='' ">
-                and user_pass like #{password}
-            </if>
-            <if test="state!=null and state!='' ">
-                and state like #{state}
-            </if>
-            <choose>
-		        <when test="startCreateDate!=null and startCreateDate!='' and endCreateDate!=null and endCreateDate!=''">
-		           and created_date between #{startCreateDate} and #{endCreateDate}
-		        </when>
-		        <when test="startCreateDate!=null and startCreateDate!='' and endCreateDate==null or endCreateDate==''">
-		           and created_date &gt;= #{startCreateDate} 
-		        </when>
-		         <when test="endCreateDate!=null and  endCreateDate!='' and startCreateDate==null or startCreateDate==''">
-		           and created_date &lt;= #{endCreateDate} 
-		        </when>
-		    </choose>
-            <if test="email!=null and email!='' ">
-             	and email like #{email}
-            </if>
-             <if test="mobilePhone!=null and mobilePhone!='' ">
-             	and mobile_phone like #{mobilePhone}
-            </if>
-            <if test="userIds!=null and userIds.size() !=0 ">
-            	and id in 
-            	<foreach item="item" index="index" collection="userIds"
-			     open="(" separator="," close=")">
-			        #{item}
-			   </foreach>
-            </if>
-        </where>
-    </select>
-
+	<resultMap type="User" id="UserResult">
+		<result property="id" column="id" />
+		<result property="userName" column="user_name" />
+		<result property="password" column="user_pass" />
+		<result property="loginName" column="login_name" />
+		<result property="fixedTelephone" column="fixed_telephone" />
+		<result property="mobilePhone" column="mobile_phone" />
+		<result property="qq" column="qq" />
+		<result property="email" column="email" />
+		<result property="state" column="state" />
+		<result property="createUser" column="create_user" />
+		<result property="sysRemark" column="sys_remark" />
+		<result property="createDate" column="created_date" />
+		<result property="updateDate" column="update_date" />
+		<result property="isSuperUser" column="isSuperUser" />
+	</resultMap>
+	
+	<select id="login" parameterType="User" resultMap="UserResult">
+		select * from
+		tpmc_user where login_name=#{loginName} and user_pass=#{password} limit 1
+	</select>
+	
+	<select id="findUsers" parameterType="Map" resultMap="UserResult">
+		select * from tpmc_user
+		<where>
+			<if test="userName!=null and userName!='' ">
+				and user_name like #{userName}
+			</if>
+			<if test="loginName!=null and loginName!='' ">
+				and login_name like #{loginName}
+			</if>
+			<if test="password!=null and password!='' ">
+				and user_pass like #{password}
+			</if>
+			<if test="state!=null and state!='' ">
+				and state like #{state}
+			</if>
+			<choose>
+				<when
+					test="startCreateDate!=null and startCreateDate!='' and endCreateDate!=null and endCreateDate!=''">
+					and created_date between #{startCreateDate} and #{endCreateDate}
+				</when>
+				<when
+					test="startCreateDate!=null and startCreateDate!='' and endCreateDate==null or endCreateDate==''">
+					and created_date &gt;= #{startCreateDate}
+				</when>
+				<when
+					test="endCreateDate!=null and  endCreateDate!='' and startCreateDate==null or startCreateDate==''">
+					and created_date &lt;= #{endCreateDate}
+				</when>
+			</choose>
+			<if test="email!=null and email!='' ">
+				and email like #{email}
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!='' ">
+				and mobile_phone like #{mobilePhone}
+			</if>
+			<if test="userIds!=null and userIds.size() !=0 ">
+				and id in
+				<foreach item="item" index="index" collection="userIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+		<if test="currentPage!=null and pageLimit!=null">
+			limit #{currentPage},#{pageLimit}
+		</if>
+	</select>
+	
+	<select id="getTotalUser" parameterType="Map" resultType="Long">
+		select count(*) from tpmc_user
+		<where>
+			<if test="userName!=null and userName!='' ">
+				and user_name like #{userName}
+			</if>
+			<if test="loginName!=null and loginName!='' ">
+				and login_name like #{loginName}
+			</if>
+			<if test="password!=null and password!='' ">
+				and user_pass like #{password}
+			</if>
+			<if test="state!=null and state!='' ">
+				and state like #{state}
+			</if>
+			<choose>
+				<when
+					test="startCreateDate!=null and startCreateDate!='' and endCreateDate!=null and endCreateDate!=''">
+					and created_date between #{startCreateDate} and #{endCreateDate}
+				</when>
+				<when
+					test="startCreateDate!=null and startCreateDate!='' and endCreateDate==null or endCreateDate==''">
+					and created_date &gt;= #{startCreateDate}
+				</when>
+				<when
+					test="endCreateDate!=null and  endCreateDate!='' and startCreateDate==null or startCreateDate==''">
+					and created_date &lt;= #{endCreateDate}
+				</when>
+			</choose>
+			<if test="email!=null and email!='' ">
+				and email like #{email}
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!='' ">
+				and mobile_phone like #{mobilePhone}
+			</if>
+			<if test="userIds!=null and userIds.size() !=0 ">
+				and id in
+				<foreach item="item" index="index" collection="userIds"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
 	<select id="findById" parameterType="Integer" resultMap="UserResult">
-        select * from
-        tpmc_user where id=#{#id} 
-    </select>
-    
-    <select id="findUserSubOrSup" parameterType="Map" resultMap="UserResult">
-        select * from tpmc_user  
-        <where>
-	        <if test="userId!=null and userId!='' ">
-	            id in (select subordinate_id from tpmc_user_subordinate where user_id = #{userId})
-	        </if>
-	        <if test="subordinateId!=null and subordinateId!='' ">
-	            id in (select user_id from tpmc_user_subordinate where subordinate_id = #{subordinateId})
-	        </if>
-        </where>
-       
-    </select>
-    
-    <select id="findUsersByFactoryId" parameterType="Integer" resultMap="UserResult">
-        select * from tpmc_user  
-        <where>
-	            id in (select create_user from tpmc_factory_limit where factory_id = #{factoryId})
-        </where>
-    </select>
-    
-    <select id="findUsersByProviderId" parameterType="Integer" resultMap="UserResult">
-        select * from tpmc_user  
-        <where>
-	            id in (select user_id from tpmc_provider_permission where provider_id = #{ProviderId})
-        </where>
-    </select>
-    
-    
-    <select id = "findUsersByGroupId" parameterType="Integer" resultMap="UserResult">
-		select * from tpmc_user where id in (select user_id from tpmc_user_group where group_id = #{groupId});
+		select * from
+		tpmc_user where id=#{#id}
 	</select>
 	
-    <select id = "findUsersByGroupIdExcept" parameterType="Integer" resultMap="UserResult">
-		select * from tpmc_user where id not in (select user_id from tpmc_user_group where group_id = #{groupId});
+	<select id="findUserSubOrSup" parameterType="Map" resultMap="UserResult">
+		select * from tpmc_user
+		<where>
+			<if test="userId!=null and userId!='' ">
+				id in (select subordinate_id from tpmc_user_subordinate where user_id
+				= #{userId})
+			</if>
+			<if test="subordinateId!=null and subordinateId!='' ">
+				id in (select user_id from tpmc_user_subordinate where subordinate_id
+				= #{subordinateId})
+			</if>
+		</where>
 	</select>
 	
-    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" >
-     	<selectKey keyProperty='id' resultType='Integer' order='AFTER'  >  
-           select LAST_INSERT_ID() as id;  
-        </selectKey>  
-        insert into tpmc_user(user_name,login_name,user_pass,state,create_user,created_date,update_date,qq,email,mobile_phone,sys_remark,isSuperUser)
-        values(#{userName},#{loginName},#{password},#{state},#{createUser},#{createDate},#{updateDate},#{qq},#{email},#{mobilePhone},#{sysRemark},#{isSuperUser})
-    </insert>
+	<select id="findUsersByFactoryId" parameterType="Integer"
+		resultMap="UserResult">
+		select * from tpmc_user
+		<where>
+			id in (select create_user from tpmc_factory_limit where factory_id =
+			#{factoryId})
+		</where>
+	</select>
 
-    <update id="updateUser" parameterType="User">
-        update tpmc_user
-        <set>
-             <if test="userName!=null and userName!='' ">
-                user_name =#{userName},
-            </if>
-            <if test="loginName!=null and loginName!='' ">
-                login_name =#{loginName},
-            </if>
-            <if test="password!=null and password!='' ">
-                user_pass =#{password},
-            </if>
-            <if test="state!=null">
-                state =#{state},
-            </if>
-            <if test="isSuperUser !=null">
-                isSuperUser =#{isSuperUser},
-            </if>
-            	sys_remark=#{sysRemark},
-             	email =#{email},
-             	mobile_phone =#{mobilePhone},
-             	qq =#{qq},
-                update_date=#{updateDate}
-        </set>
-        where id=#{id}
-    </update>
+	<select id="findUsersByProviderId" parameterType="Integer"
+		resultMap="UserResult">
+		select * from tpmc_user
+		<where>
+			id in (select user_id from tpmc_provider_permission where provider_id =
+			#{ProviderId})
+		</where>
+	</select>
 
-    <delete id="deleteUser" parameterType="Integer">
-        delete from tpmc_user
-        where id=#{id}
-    </delete>
-    
-    
-    
+	<select id="findUsersByGroupId" parameterType="Integer"
+		resultMap="UserResult">
+		select * from tpmc_user where id in (select user_id from
+		tpmc_user_group where group_id = #{groupId});
+	</select>
+
+	<select id="findUsersByGroupIdExcept" parameterType="Integer"
+		resultMap="UserResult">
+		select * from tpmc_user where id not in (select user_id from
+		tpmc_user_group where group_id = #{groupId});
+	</select>
+
+	<insert id="addUser" parameterType="User" useGeneratedKeys="true"
+		keyProperty="id">
+		<selectKey keyProperty='id' resultType='Integer' order='AFTER'>
+			select LAST_INSERT_ID() as id;
+		</selectKey>
+		insert into
+		tpmc_user(user_name,login_name,user_pass,state,create_user,created_date,update_date,qq,email,mobile_phone,sys_remark,isSuperUser)
+		values(#{userName},#{loginName},#{password},#{state},#{createUser},#{createDate},#{updateDate},#{qq},#{email},#{mobilePhone},#{sysRemark},#{isSuperUser})
+	</insert>
+
+	<update id="updateUser" parameterType="User">
+		update tpmc_user
+		<set>
+			<if test="userName!=null and userName!='' ">
+				user_name =#{userName},
+			</if>
+			<if test="loginName!=null and loginName!='' ">
+				login_name =#{loginName},
+			</if>
+			<if test="password!=null and password!='' ">
+				user_pass =#{password},
+			</if>
+			<if test="state!=null">
+				state =#{state},
+			</if>
+			<if test="isSuperUser !=null">
+				isSuperUser =#{isSuperUser},
+			</if>
+			sys_remark=#{sysRemark},
+			email =#{email},
+			mobile_phone =#{mobilePhone},
+			qq =#{qq},
+			update_date=#{updateDate}
+		</set>
+		where id=#{id}
+	</update>
+
+	<delete id="deleteUser" parameterType="Integer">
+		delete from tpmc_user
+		where id=#{id}
+	</delete>
 </mapper> 
