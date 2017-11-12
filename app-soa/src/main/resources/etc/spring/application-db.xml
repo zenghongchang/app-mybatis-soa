@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+    http://www.springframework.org/schema/context   
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!--载入properties配置文件 -->
+	<context:property-placeholder location="classpath:etc/conf/*.properties" order="2" />
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>jdbc:mysql://${mysql.serverUrl}?useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull
+			</value>
+		</property>
+		<property name="user">
+			<value>${mysql.user}</value>
+		</property>
+		<property name="password">
+			<value>${mysql.password}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${mysql.maxPoolSize}</value>
+		</property>
+		<property name="minPoolSize">
+			<value>1</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>1</value>
+		</property>
+		<property name="maxIdleTime">
+			<value>20</value>
+		</property>
+		<property name="debugUnreturnedConnectionStackTraces">
+			<value>${mysql.debugUnreturnedConnectionStackTraces}</value>
+		</property>
+		<property name="unreturnedConnectionTimeout">
+			<value>${mysql.unreturnedConnectionTimeout}</value>
+		</property>
+	</bean>
+	<!-- 配置mybatis的sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- 自动扫描mappers.xml文件 -->
+		<!-- <property name="mapperLocations" value="classpath:/etc/mapper/*.xml"></property> -->
+		<!-- mybatis配置文件 -->
+		<property name="configLocation" value="classpath:/etc/mybatis-config.xml"></property>
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.hnust.dao.it;com.hnust.dao.product;com.hnust.dao.materialStock;com.hnust.dao.supply;com.hnust.dao.productStock;com.hnust.dao.production;com.hnust.dao.materialPurchase" />
+	</bean>
+	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 配置事务通知属性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 定义事务传播属性 -->
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="upd*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="edit*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="add*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="new*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="set*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="remove*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="del*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="change*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+			<tx:method name="check*" propagation="REQUIRED" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="search*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="load*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" propagation="NOT_SUPPORTED" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" read-only="false" rollback-for="ServiceException" />
+		</tx:attributes>
+	</tx:advice>
+	<aop:config proxy-target-class="true" />
+	<!-- 配置事务切面 -->
+	<aop:config>
+		<aop:pointcut id="serviceOperation" expression="execution(public * com.hnust.service.impl..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
+	</aop:config>
+</beans>
