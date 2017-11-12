@@ -22,7 +22,7 @@
     <mongo:mongo host="${mongo.host}" port="${mongo.port}">
         <mongo:options connections-per-host="10" threads-allowed-to-block-for-connection-multiplier="100" connect-timeout="1000" max-wait-time="1500" auto-connect-retry="true" />
     </mongo:mongo>    
-    <bean id="mongoDao" class="com.hnust.dao.base.MongoDao">
+    <bean id="mongoDao" class="edu.hnust.application.dao.base.MongoDao">
        <property name="mongoTemplate" ref="mongoTemplate" />
     </bean>
 </beans>

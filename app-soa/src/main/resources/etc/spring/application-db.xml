@@ -59,7 +59,7 @@
 	</bean>
 	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.hnust.dao.it;com.hnust.dao.product;com.hnust.dao.materialStock;com.hnust.dao.supply;com.hnust.dao.productStock;com.hnust.dao.production;com.hnust.dao.materialPurchase" />
+		<property name="basePackage" value="edu.hnust.application.dao.it;edu.hnust.application.dao.product;edu.hnust.application.dao.materialStock;edu.hnust.application.dao.supply;edu.hnust.application.dao.productStock;edu.hnust.application.dao.production;edu.hnust.application.dao.materialPurchase" />
 	</bean>
 	<!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -94,7 +94,7 @@
 	<aop:config proxy-target-class="true" />
 	<!-- 配置事务切面 -->
 	<aop:config>
-		<aop:pointcut id="serviceOperation" expression="execution(public * com.hnust.service.impl..*.*(..))" />
+		<aop:pointcut id="serviceOperation" expression="execution(public * edu.hnust.application.service.impl..*.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
 	</aop:config>
 </beans>

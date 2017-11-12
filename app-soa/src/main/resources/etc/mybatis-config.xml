@@ -29,8 +29,8 @@
 	</settings>
 
 	<typeAliases>
-		<package name="com.hnust.orm" />
-		<package name="com.hnust.dto" />
+		<package name="edu.hnust.application.orm" />
+		<package name="edu.hnust.application.dto" />
 	</typeAliases>
 
 	<mappers>

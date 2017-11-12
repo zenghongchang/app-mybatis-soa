@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
         "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hnust.dao.it.user.IUserDao">
+<mapper namespace="edu.hnust.application.dao.it.user.IUserDao">
 	<resultMap type="User" id="UserResult">
 		<result property="id" column="id" />
 		<result property="userName" column="user_name" />
