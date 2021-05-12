@@ -51,7 +51,7 @@
 		<jackson-annotations.version>2.8.0</jackson-annotations.version>
 		<org.codehaus.jackson.version>1.9.5</org.codehaus.jackson.version>
 
-		<org.apache.solr>4.10.3</org.apache.solr>
+		<org.apache.solr>8.8.2</org.apache.solr>
 		<jdbc.driver.version>5.1.38</jdbc.driver.version>
 		<mybatis.version>3.4.1</mybatis.version>
 		<cglib.version>3.2.2</cglib.version>
