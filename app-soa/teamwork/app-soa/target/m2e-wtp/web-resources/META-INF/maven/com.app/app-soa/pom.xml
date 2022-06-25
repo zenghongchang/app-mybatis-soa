@@ -10,7 +10,7 @@
 		<!-- spring版本 -->
 		<spring.version>4.3.7.RELEASE</spring.version>
 		<!--spring-data-mongodb -->
-		<spring.data.mongo>1.6.1.RELEASE</spring.data.mongo>
+		<spring.data.mongo>3.3.5</spring.data.mongo>
 		<!--spring.mongo-java-drive -->
 		<spring.mongo-java-drive.version>2.12.4</spring.mongo-java-drive.version>
 		<!-- spring-data-commons -->
